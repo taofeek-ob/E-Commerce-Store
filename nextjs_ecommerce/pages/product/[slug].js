@@ -11,7 +11,7 @@ import { Product } from "../../components";
 import { useStateContext } from "../../context/StateContext";
 
 const ProductDetails = ({ product, products }) => {
-  const { image, name, details, price } = product;
+  const { image, name, details, price, category } = product;
   const [index, setIndex] = useState(0);
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
@@ -59,6 +59,8 @@ const ProductDetails = ({ product, products }) => {
           </div>
           <h4>Details: </h4>
           <p>{details}</p>
+          <h4>{category}</h4>
+
           <p className="price">${price}</p>
           <div className="quantity">
             <h3>Quantity:</h3>
@@ -88,7 +90,12 @@ const ProductDetails = ({ product, products }) => {
       </div>
 
       <div className="maylike-products-wrapper">
-        <h2>You may also like</h2>
+        <h2>
+          You may also like other{" "}
+          <span style={{ position: "relative" }}>
+            <span className="fancy">{category}</span>
+          </span>
+        </h2>
         <div className="marquee">
           <div className="maylike-products-container track">
             {products.map((item) => (
@@ -125,17 +132,17 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const slug = params.slug;
-  const query = `*[_type == "product" && slug.current == '${slug}'][0]`;
-  const productsQuery = `*[_type == "product" && slug.current != '${slug}']`;
+  const query = `*[_type == "product" && slug.current == '${slug}'][0]{ _id,image, name, details, price, "category":type->productType}`;
+  const productsQuery = `*[_type == "product" && slug.current != "${slug}"]{_id, image, name, slug, price, "category":type->productType}`;
 
   const product = await client.fetch(query);
   const newFilter = await client.fetch(productsQuery);
 
   const products = newFilter.filter(
-    (item) => item.type._ref == product.type._ref
+    (item) => item.category == product.category
   );
+  console.log(products);
   console.log(product);
-  console.log(newFilter);
 
   return {
     props: { products, product },
