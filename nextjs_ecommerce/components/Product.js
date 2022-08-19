@@ -2,9 +2,9 @@ import Link from "next/link";
 
 import { urlFor } from "../lib/client";
 
-const Product = ({ product: { image, name, slug, price } }) => {
+const Product = ({ product: { _id, image, name, slug, price } }) => {
   return (
-    <div>
+    <div key={_id}>
       <Link href={`/product/${slug?.current}`}>
         <div className="product-card">
           <img
