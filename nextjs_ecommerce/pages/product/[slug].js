@@ -93,7 +93,8 @@ const ProductDetails = ({ product, products }) => {
         <h2>
           You may also like other{" "}
           <span style={{ position: "relative" }}>
-            <span className="fancy">{category}</span>
+            {category}
+            <span className="fancy"></span>
           </span>
         </h2>
         <div className="marquee">
