@@ -59,7 +59,7 @@ a {
   position: absolute;
   white-space: nowrap;
   will-change: transform;
-  animation: marquee 10s linear infinite;
+  animation: marquee 15s linear infinite;
   width: 180%;
 }
 .track:hover {
@@ -386,7 +386,7 @@ span.text-red {
 }
 .cart-bottom {
   position: absolute;
-  bottom: 12px;
+  bottom: 16px;
   right: 5px;
   width: 100%;
   padding: 30px 65px;
